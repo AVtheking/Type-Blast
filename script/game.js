@@ -6,14 +6,17 @@ function getRandomChar() {
    
     charCode = Math.floor(Math.random() * 26) + 97;
     // console.log(String.fromCharCode(charCode))
-    console.log(charCode);
+    // console.log(charCode);
     return String.fromCharCode(charCode);
 }
+const bubbleMap = new Map();
 function createBubble() {
     const bubble = document.createElement("div");
     bubble.classList.add("bubble");
     bubble.style.left = `${Math.random() * 70}%`; 
-    bubble.textContent = getRandomChar();
+    char = getRandomChar();
+    bubble.textContent = char;
+    bubbleMap[char] = bubble;
     console.log(getRandomChar());    
     bubble.style.backgroundColor = getRandomColor();
     document.querySelector(".container").appendChild(bubble);
@@ -23,6 +26,7 @@ function createBubble() {
         bubble.remove();
     });
 }
+document.addEventListener('keydown', handleKeyDown);
 
 function getRandomColor() {
     let maxVal = 0xFFFFFF; 
@@ -31,6 +35,17 @@ function getRandomColor() {
     return `#${randCol.toUpperCase()}`;
 
     
+}
+function handleKeyDown(event) {
+    const pressedKey = event.key;
+    const bubbles = document.querySelectorAll('.bubble');
+
+    bubbles.forEach((bubble) => {
+        const bubbleText = bubble.textContent;
+        if (bubbleText == pressedKey) {
+            bubble.remove();
+        }
+    })
 }
 
 setInterval(createBubble, 2000);
