@@ -1,0 +1,11 @@
+body{
+    box-sizing: border-box;
+}
+.heading{
+    /* display:"none"; */
+    font-size: 45px;
+    text-align: center;
+}.button{
+    text-align: center;
+    margin-top: 10vh;
+}
