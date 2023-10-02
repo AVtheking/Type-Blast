@@ -27,6 +27,7 @@ myScore.style.marginLeft = "1vw";
 let id;
 const particles = [];
 const bubbleMap = new Map();
+const scoreMap = new Map();
 
 function triggerExplosion(x, y) {
   for (let i = 0; i < 30; i++) {
@@ -78,7 +79,8 @@ function getRandomChar() {
 }
 
 function adjustSpeed() {
-  if (score % 5 == 0 && score != 0) {
+  if (score % 5 == 0 && score != 0 && !scoreMap.has(score)) {
+    scoreMap.set(score, 1);
     speed = Math.min(speed + 0.02, maxSpeed);
     repeat = Math.max(repeat - 200, minRepeat);
     clearInterval(intervalId);
