@@ -1,37 +1,48 @@
 
-// let score = 50;
-// document.getElementById("p1").innerHTML = `Score: ${score}`;
-// document.getElementById("p1").style.fontSize = "25px";
+
 let score = 0;
+
+let repeat = 1000; 
+let minRepeat = 300;
+let intervalId = setInterval(createBubble, repeat);
+const generatedChars = new Set();
 document.getElementById("score").innerHTML = `Score:${score}`;
 document.getElementById("score").style.fontSize = "25px ";
 function getRandomChar() {
+    let char;
+    do {
+       
+        charCode = Math.floor(Math.random() * 26) + 97;
+        char = String.fromCharCode(charCode);
+    } while (generatedChars.has(char));
+    generatedChars.add(char);
+    return char;
    
-    charCode = Math.floor(Math.random() * 26) + 97;
-    // console.log(String.fromCharCode(charCode))
-    // console.log(charCode);
-    return String.fromCharCode(charCode);
 }
  bubbleMap = new Map();
 function createBubble() {
     const bubble = document.createElement("div");
     bubble.classList.add("bubble");
-    bubble.style.left = `${Math.random() * 70}%`; 
+    bubble.style.left = `${Math.random() * 90}%`; 
     bubbleText = getRandomChar();
     bubble.textContent = bubbleText;
-    // bubbleMap[char] = bubble;
-    // console.log(getRandomChar());    
     bubble.style.backgroundColor = getRandomColor();
     document.querySelector(".container").appendChild(bubble);
     bubbleMap.set(bubbleText, bubble);
 
-    bubble.addEventListener("animationiteration", () => {
+
+    bubble.addEventListener("animationiteration", function ()  {
         
-        bubble.remove();
-        bubbleMap.delete(bubbleText);
+        this.remove();
+        const text = this.textContent;
+        bubbleMap.delete(text);
+        console.log("this part is running" +text);
+        generatedChars.delete(text);
     });
+    adjustSpeed();
 }
 document.addEventListener('keypress', handleKeyDown);
+
 
 function getRandomColor() {
     let maxVal = 0xFFFFFF; 
@@ -41,31 +52,37 @@ function getRandomColor() {
 
     
 }
-// let bubbleMap=new Map()
+function adjustSpeed() {
+    console.log(repeat);
+   
+    if (score % 5== 0 && score!=0) {
+        repeat = Math.max(repeat - 200, minRepeat);
+        clearInterval(intervalId); 
+        intervalId = setInterval(createBubble, repeat); 
+    }
+}
+
 function handleKeyDown(event) {
     const pressedKey = event.key;
-    // const bubbles = document.querySelectorAll('.bubble');
-
-
-   
     
     if (bubbleMap.has(pressedKey)) {
         const bubble = bubbleMap.get(pressedKey);
         bubble.remove();
-            bubbleMap.delete(pressedKey);
+        bubbleMap.delete(pressedKey);
+        generatedChars.delete(pressedKey);
         score++;
         document.getElementById("score").innerHTML = `Score:${score}`;
+        adjustSpeed();
                
     }
     else {
         score--;
         document.getElementById("score").innerHTML = `Score:${score}`;
     }
+   
 
 }
-let repeat = 2000;
-if (score % 2== 0) {
-    repeat -= 500;
-}
 
-setInterval(createBubble, repeat);
+
+console.log(repeat);
+

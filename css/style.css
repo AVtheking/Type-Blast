@@ -27,7 +27,7 @@ body{
     align-items: center;
     text-align: center  ;
     font-size: 25px;
-    animation:move 5s linear infinite;
+    animation:move 7s linear infinite;
 
 }
 @keyframes move {
