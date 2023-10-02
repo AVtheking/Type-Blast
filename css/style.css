@@ -1,7 +1,13 @@
 body{
-    box-sizing: border-box;
     overflow: hidden;
     background-color: blueviolet;
+    padding:0
+
+}ul{
+    display: flex;
+   
+    list-style-type: none;
+    
 }
 .heading{
     /* display:"none"; */
@@ -10,15 +16,32 @@ body{
 }.button{
     text-align: center;
     margin-top: 10vh;
-}#gameCanvas{
-    width: 90%;
-    height: 90%;
+}.gameControls{
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    height: 5vh;
+    background: transparent;
+    flex-wrap: wrap;
+    
+}.hearts{
+    height: 30px;
+    width: 30px;
+    /* padding: 5px; */
+    margin-right: 1vw;
+
+}
+
+
+#gameCanvas{
+    width: 80%;
+    height: 80%;
     position: absolute;
     background-color: aliceblue;
+    margin-top: 5vh;
+    margin-left: 9vw;
     object-fit: contain;
-     margin-top: 1vh;
-     margin-left: 5vw;
-    
+     
 
     
 }.bubble{

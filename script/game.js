@@ -15,6 +15,7 @@ let intervalId = setInterval(createBubble, repeat);
 document.getElementById("score").innerHTML = `Score: ${score}`;
 document.getElementById("score").style.fontSize = "25px";
 document.getElementById("score").style.color = "white";
+document.getElementById("score").style.marginLeft = "1vw";
 
 bubbleMap = new Map();
 
@@ -64,7 +65,7 @@ function drawBubbles() {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fillStyle = getRandomColor()
-          ;
+          
     ctx.fill();
     ctx.fillStyle = "#fff"; 
     ctx.font = "20px Arial"; 
