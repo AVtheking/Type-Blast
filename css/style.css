@@ -52,7 +52,7 @@ body{
     color: aliceblue;
     margin-top: 3vh;
     
-    border-radius: 35px;
+    border-radius: 15px;
     animation:scaleUp 2s ease-in-out
 }
 

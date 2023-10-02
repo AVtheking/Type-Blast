@@ -15,8 +15,11 @@ let repeat = 1500;
 let intervalId = setInterval(createBubble, repeat);
 var hearts = document.getElementsByClassName("hearts");
 let health = 10;
+
 let sound = new Audio("../sounds/wronganswer-37702.mp3");
 let gameOverSound = new Audio("../sounds/negative_beeps-6008.mp3");
+let popSound = new Audio("../sounds/pop-39222.mp3");
+
 myScore.innerHTML = `Score: ${score}`;
 myScore.style.fontSize = "25px";
 myScore.style.color = "white";
@@ -122,6 +125,9 @@ function handleKeyDown(event) {
 
   if (bubbleMap.has(pressedKey)) {
     const bubble = bubbleMap.get(pressedKey);
+    popSound.pause();
+    popSound.currentTime = 0;
+    popSound.play();
     bubbleMap.delete(pressedKey);
     generatedChars.delete(pressedKey);
     score++;
@@ -130,7 +136,7 @@ function handleKeyDown(event) {
     triggerExplosion(bubble.x, bubble.y);
   } else {
     sound.pause();
-
+    sound.currentTime = 0;
     sound.play();
     score = Math.max(score - 1, 0);
     console.log(score);
@@ -155,6 +161,7 @@ function animate() {
       bubble.y -= speed;
     } else {
       sound.pause();
+      sound.currentTime = 0;
       sound.play();
       bubbleMap.delete(key);
       generatedChars.delete(key);
