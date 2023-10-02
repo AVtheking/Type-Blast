@@ -45,11 +45,15 @@ document.addEventListener('keypress', handleKeyDown);
 
 
 function getRandomColor() {
-    let maxVal = 0xFFFFFF; 
-    let randomNumber = Math.floor(Math.random() * maxVal).toString(16);
-    let randCol = randomNumber.padStart(6, 0);
-    return `#${randCol.toUpperCase()}`;
-
+    // let maxVal = 0xFFFFFF; 
+    // let randomNumber = Math.floor(Math.random() * maxVal).toString(16);
+    // let randCol = randomNumber.padStart(6, 0);
+    // return `#${randCol.toUpperCase()}`;
+    var color = '#';
+    for (var i = 0; i < 6; i++){
+        color += Math.floor(Math.random() * 10);
+    }
+    return color;
     
 }
 function adjustSpeed() {
