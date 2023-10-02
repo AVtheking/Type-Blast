@@ -1,10 +1,12 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = false;
+// ctx.imageSmoothingEnabled = false;
+let myScore = document.getElementById("score");
+let endScore = document.getElementById("endScore");
 
 let score = 0;
 const maxbubbles = 10;
-let speed = 3;
+let speed = 2;
 let maxSpeed = 6;
 const generatedChars = new Set();
 let minRepeat = 300;
@@ -12,13 +14,13 @@ let repeat = 2000;
 let intervalId = setInterval(createBubble, repeat);
 var hearts = document.getElementsByClassName("hearts");
 let health = 10;
+myScore.innerHTML = `Score: ${score}`;
+myScore.style.fontSize = "25px";
+myScore.style.color = "white";
+myScore.style.marginLeft = "1vw";
 
-document.getElementById("score").innerHTML = `Score: ${score}`;
-document.getElementById("score").style.fontSize = "25px";
-document.getElementById("score").style.color = "white";
-document.getElementById("score").style.marginLeft = "1vw";
+const bubbleMap = new Map();
 
-bubbleMap = new Map();
 function damage() {
   health--;
   console.log(health);
@@ -36,6 +38,7 @@ function damage() {
   }
   if (health == 0) {
     hearts[4].style.opacity = 0;
+    gameOver(score);
   }
 }
 function getRandomColor() {
@@ -48,7 +51,7 @@ function getRandomColor() {
 function getRandomChar() {
   let char;
   do {
-    charCode = Math.floor(Math.random() * 26) + 97;
+    let charCode = Math.floor(Math.random() * 26) + 97;
     char = String.fromCharCode(charCode);
   } while (generatedChars.has(char));
   generatedChars.add(char);
@@ -125,6 +128,34 @@ function handleKeyDown(event) {
     document.getElementById("score").innerHTML = `Score: ${score}`;
   }
 }
-
+function gameOver(score) {
+  canvas.style.display = "none";
+  gameOverScreen.style.display = "block";
+  myScore.innerHTML = "";
+  endScore.innerHTML = `Your Score:${score}`;
+  endScore.style.fontSize = "25px";
+  endScore.style.color = "#fff";
+  const restartButton = document.getElementById("restartButton");
+  restartButton.addEventListener("click", () => {
+    health = 10;
+    score = 0;
+    myScore.innerHTML = `Score: ${score}`;
+    bubbleMap.clear();
+    generatedChars.clear();
+    canvas.style.display = "block";
+    gameOverScreen.style.display = "none";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hearts[0].style.opacity = 1;
+    hearts[1].style.opacity = 1;
+    hearts[2].style.opacity = 1;
+    hearts[3].style.opacity = 1;
+    hearts[4].style.opacity = 1;
+    speed = 1;
+    repeat = 2000;
+    clearInterval(intervalId);
+    intervalId = setInterval(createBubble, repeat);
+    animate();
+  });
+}
 animate();
-setInterval(createBubble, repeat);
+// setInterval(createBubble, repeat);
