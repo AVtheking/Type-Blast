@@ -38,8 +38,8 @@ body{
     
     border-radius: 5px;
     animation: move 2s ease-in-out forwards;
-    position: relative; /* Added to control animation position */
-    left: 0; /* Start position (left edge) */
+    position: relative; 
+    left: 0; 
 }
 
 

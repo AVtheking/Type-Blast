@@ -4,9 +4,9 @@ const ctx = canvas.getContext("2d");
 let myScore = document.getElementById("score");
 let endScore = document.getElementById("endScore");
 
-let score = 0;
+var score = 0;
 const maxbubbles = 10;
-var speed = 2;
+let speed = 1;
 let maxSpeed = 6;
 const generatedChars = new Set();
 let minRepeat = 300;
@@ -38,7 +38,7 @@ function damage() {
   }
   if (health == 0) {
     hearts[4].style.opacity = 0;
-    gameOver(score);
+    gameOver();
   }
 }
 function getRandomColor() {
@@ -129,7 +129,7 @@ function handleKeyDown(event) {
     document.getElementById("score").innerHTML = `Score: ${score}`;
   }
 }
-function gameOver(score) {
+function gameOver() {
   canvas.style.display = "none";
   gameOverScreen.style.display = "block";
   myScore.innerHTML = "";
@@ -159,4 +159,3 @@ function gameOver(score) {
   });
 }
 animate();
-// setInterval(createBubble, repeat);
