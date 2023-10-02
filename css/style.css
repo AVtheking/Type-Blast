@@ -10,10 +10,17 @@ body{
 }.button{
     text-align: center;
     margin-top: 10vh;
-}.container{
-    width: 100vw;
-    height: 100vh;
-    position: relative;
+}#gameCanvas{
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    background-color: aliceblue;
+    object-fit: contain;
+     margin-top: 1vh;
+     margin-left: 5vw;
+    
+
+    
 }.bubble{
     border-radius: 50%;
     background-color: #2a0505;
