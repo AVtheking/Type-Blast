@@ -23,7 +23,11 @@ body{
     color: aliceblue;
     filter: blur(0.5px);
     font-size: 55px;
+    animation: scaleUp 2s ease-in-out;
    
+}
+#endScore{
+    animation:scaleUp 2s ease-in-out
 }
 
 .button{
@@ -43,13 +47,13 @@ body{
     left: 0; 
 }.restartbtn{
     padding: 15px 32px;
-    font-size: 20px;
+    font-size: 15px;
     background-color: rgb(178, 11, 184);
     color: aliceblue;
-    margin-top: 1vh;
+    margin-top: 3vh;
     
-    border-radius: 5px;
-   
+    border-radius: 35px;
+    animation:scaleUp 2s ease-in-out
 }
 
 
@@ -134,4 +138,15 @@ body{
     100% {
         text-shadow: 0 0 20px rgb(226, 230, 233);
     }
+}
+@keyframes scaleUp {
+    0%{
+        transform:scale(0);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    
 }

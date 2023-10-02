@@ -6,11 +6,11 @@ let endScore = document.getElementById("endScore");
 
 var score = 0;
 const maxbubbles = 10;
-let speed = 1;
+let speed = 0.5;
 let maxSpeed = 6;
 const generatedChars = new Set();
 let minRepeat = 300;
-let repeat = 2000;
+let repeat = 1300;
 let intervalId = setInterval(createBubble, repeat);
 var hearts = document.getElementsByClassName("hearts");
 let health = 10;
@@ -60,8 +60,8 @@ function getRandomChar() {
 }
 function adjustSpeed() {
   if (score % 5 == 0 && score != 0) {
-    speed = Math.min(speed + 0.05, maxSpeed);
-    repeat = Math.max(repeat - 500, minRepeat);
+    speed = Math.min(speed + 0.02, maxSpeed);
+    repeat = Math.max(repeat - 200, minRepeat);
     clearInterval(intervalId);
     intervalId = setInterval(createBubble, repeat);
   }
@@ -99,22 +99,21 @@ function drawBubbles() {
 function animate() {
   const id = requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  console.log(speed);
-  console.log(score);
-  console.log(repeat);
+
   bubbleMap.forEach((bubble, key) => {
     if (bubble.y - bubble.radius > 0) {
       bubble.y -= speed;
     } else {
+      sound.pause();
+      sound.play();
       bubbleMap.delete(key);
       generatedChars.delete(key);
       damage();
     }
-    if (health == 0) {
-      // gameOver();
-      return;
-    }
   });
+  if (health == 0) {
+    cancelAnimationFrame(id);
+  }
 
   drawBubbles();
 }
@@ -122,6 +121,9 @@ function animate() {
 document.addEventListener("keypress", handleKeyDown);
 
 function handleKeyDown(event) {
+  if (health == 0) {
+    return;
+  }
   const pressedKey = event.key;
 
   if (bubbleMap.has(pressedKey)) {
@@ -131,20 +133,21 @@ function handleKeyDown(event) {
     score++;
     document.getElementById("score").innerHTML = `Score: ${score}`;
     adjustSpeed();
-    drawBurst(bubble.x, bubble.y, bubble.radius);
   } else {
+    sound.pause();
+
     sound.play();
-    score--;
+    score = Math.max(score - 1, 0);
+    console.log(score);
     document.getElementById("score").innerHTML = `Score: ${score}`;
   }
 }
 function gameOver() {
   gameOverSound.play();
-
   canvas.style.display = "none";
   gameOverScreen.style.display = "block";
   myScore.innerHTML = "";
-  endScore.innerHTML = `Your Score:${score}`;
+  endScore.innerHTML = `Your Score: ${score}`;
   endScore.style.fontSize = "35px";
   endScore.style.color = "#fff";
   const restartButton = document.getElementById("restartButton");
@@ -164,11 +167,11 @@ function gameOver() {
     hearts[4].style.opacity = 1;
     speed = 1;
     repeat = 2000;
-    cancelAnimationFrame(id);
     clearInterval(intervalId);
     intervalId = setInterval(createBubble, repeat);
     animate();
   });
+  cancelAnimationFrame(id);
 }
 
 animate();
