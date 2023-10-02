@@ -21,7 +21,8 @@ body{
     animation: glow 2s ease-in-out infinite alternate;
 }.head-2{
     color: aliceblue;
-    filter: blur(2.5);
+    filter: blur(0.5px);
+    font-size: 55px;
    
 }
 
@@ -40,6 +41,15 @@ body{
     animation: move 2s ease-in-out forwards;
     position: relative; 
     left: 0; 
+}.restartbtn{
+    padding: 15px 32px;
+    font-size: 20px;
+    background-color: rgb(178, 11, 184);
+    color: aliceblue;
+    margin-top: 1vh;
+    
+    border-radius: 5px;
+   
 }
 
 

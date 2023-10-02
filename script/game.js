@@ -71,7 +71,7 @@ function createBubble() {
   if (bubbleMap.size < maxbubbles) {
     const bubbleText = getRandomChar();
     const radius = 20;
-    const x = Math.random() * (canvas.width - radius);
+    const x = Math.random() * (canvas.width - 2 * radius) + radius;
     const y = canvas.height + radius;
 
     bubbleMap.set(bubbleText, { x, y, radius });
@@ -97,10 +97,11 @@ function drawBubbles() {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  const id = requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   console.log(speed);
   console.log(score);
+  console.log(repeat);
   bubbleMap.forEach((bubble, key) => {
     if (bubble.y - bubble.radius > 0) {
       bubble.y -= speed;
@@ -108,6 +109,10 @@ function animate() {
       bubbleMap.delete(key);
       generatedChars.delete(key);
       damage();
+    }
+    if (health == 0) {
+      // gameOver();
+      return;
     }
   });
 
@@ -120,11 +125,13 @@ function handleKeyDown(event) {
   const pressedKey = event.key;
 
   if (bubbleMap.has(pressedKey)) {
+    const bubble = bubbleMap.get(pressedKey);
     bubbleMap.delete(pressedKey);
     generatedChars.delete(pressedKey);
     score++;
     document.getElementById("score").innerHTML = `Score: ${score}`;
     adjustSpeed();
+    drawBurst(bubble.x, bubble.y, bubble.radius);
   } else {
     sound.play();
     score--;
@@ -133,11 +140,12 @@ function handleKeyDown(event) {
 }
 function gameOver() {
   gameOverSound.play();
+
   canvas.style.display = "none";
   gameOverScreen.style.display = "block";
   myScore.innerHTML = "";
   endScore.innerHTML = `Your Score:${score}`;
-  endScore.style.fontSize = "25px";
+  endScore.style.fontSize = "35px";
   endScore.style.color = "#fff";
   const restartButton = document.getElementById("restartButton");
   restartButton.addEventListener("click", () => {
@@ -156,9 +164,11 @@ function gameOver() {
     hearts[4].style.opacity = 1;
     speed = 1;
     repeat = 2000;
+    cancelAnimationFrame(id);
     clearInterval(intervalId);
     intervalId = setInterval(createBubble, repeat);
     animate();
   });
 }
+
 animate();
