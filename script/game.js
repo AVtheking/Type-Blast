@@ -6,7 +6,7 @@ let endScore = document.getElementById("endScore");
 
 let score = 0;
 const maxbubbles = 10;
-let speed = 2;
+var speed = 2;
 let maxSpeed = 6;
 const generatedChars = new Set();
 let minRepeat = 300;
@@ -69,8 +69,8 @@ function adjustSpeed() {
 function createBubble() {
   if (bubbleMap.size < maxbubbles) {
     const bubbleText = getRandomChar();
-    const radius = 25;
-    const x = Math.random() * (canvas.width - 2 * radius) + radius;
+    const radius = 20;
+    const x = Math.random() * (canvas.width - radius);
     const y = canvas.height + radius;
 
     bubbleMap.set(bubbleText, { x, y, radius });
@@ -88,7 +88,7 @@ function drawBubbles() {
 
     ctx.fill();
     ctx.fillStyle = "#fff";
-    ctx.font = "20px Arial";
+    ctx.font = "15px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(key, x, y);
@@ -98,7 +98,8 @@ function drawBubbles() {
 function animate() {
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+  console.log(speed);
+  console.log(score);
   bubbleMap.forEach((bubble, key) => {
     if (bubble.y - bubble.radius > 0) {
       bubble.y -= speed;
