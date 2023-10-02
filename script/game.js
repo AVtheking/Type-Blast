@@ -14,6 +14,8 @@ let repeat = 2000;
 let intervalId = setInterval(createBubble, repeat);
 var hearts = document.getElementsByClassName("hearts");
 let health = 10;
+let sound = new Audio("../sounds/wronganswer-37702.mp3");
+let gameOverSound = new Audio("../sounds/negative_beeps-6008.mp3");
 myScore.innerHTML = `Score: ${score}`;
 myScore.style.fontSize = "25px";
 myScore.style.color = "white";
@@ -42,11 +44,10 @@ function damage() {
   }
 }
 function getRandomColor() {
-  var color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += Math.floor(Math.random() * 10);
-  }
-  return color;
+  let maxVal = 0xffffff;
+  let randomNumber = Math.floor(Math.random() * maxVal).toString(16);
+  let randCol = randomNumber.padStart(6, 0);
+  return `#${randCol.toUpperCase()}`;
 }
 function getRandomChar() {
   let char;
@@ -125,11 +126,13 @@ function handleKeyDown(event) {
     document.getElementById("score").innerHTML = `Score: ${score}`;
     adjustSpeed();
   } else {
+    sound.play();
     score--;
     document.getElementById("score").innerHTML = `Score: ${score}`;
   }
 }
 function gameOver() {
+  gameOverSound.play();
   canvas.style.display = "none";
   gameOverScreen.style.display = "block";
   myScore.innerHTML = "";
