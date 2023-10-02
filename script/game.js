@@ -3,14 +3,15 @@ const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
 let score = 0;
-const maxbubbles=10
-let speed = 0.5;
+const maxbubbles = 10;
+let speed = 3;
 let maxSpeed = 6;
 const generatedChars = new Set();
 let minRepeat = 300;
 let repeat = 2000;
 let intervalId = setInterval(createBubble, repeat);
-
+var hearts = document.getElementsByClassName("hearts");
+let health = 10;
 
 document.getElementById("score").innerHTML = `Score: ${score}`;
 document.getElementById("score").style.fontSize = "25px";
@@ -18,7 +19,25 @@ document.getElementById("score").style.color = "white";
 document.getElementById("score").style.marginLeft = "1vw";
 
 bubbleMap = new Map();
-
+function damage() {
+  health--;
+  console.log(health);
+  if (health == 8) {
+    hearts[0].style.opacity = 0;
+  }
+  if (health == 6) {
+    hearts[1].style.opacity = 0;
+  }
+  if (health == 4) {
+    hearts[2].style.opacity = 0;
+  }
+  if (health == 2) {
+    hearts[3].style.opacity = 0;
+  }
+  if (health == 0) {
+    hearts[4].style.opacity = 0;
+  }
+}
 function getRandomColor() {
   var color = "#";
   for (var i = 0; i < 6; i++) {
@@ -27,36 +46,34 @@ function getRandomColor() {
   return color;
 }
 function getRandomChar() {
-    let char;
-    do {
-       
-        charCode = Math.floor(Math.random() * 26) + 97;
-        char = String.fromCharCode(charCode);
-    } while (generatedChars.has(char));
-    generatedChars.add(char);
-    return char;
-   
+  let char;
+  do {
+    charCode = Math.floor(Math.random() * 26) + 97;
+    char = String.fromCharCode(charCode);
+  } while (generatedChars.has(char));
+  generatedChars.add(char);
+  return char;
 }
 function adjustSpeed() {
   if (score % 5 == 0 && score != 0) {
-      speed = Math.min(speed+0.05, maxSpeed);
-      repeat = Math.max(repeat - 500, minRepeat);
-      clearInterval(intervalId); 
-      intervalId = setInterval(createBubble, repeat); 
+    speed = Math.min(speed + 0.05, maxSpeed);
+    repeat = Math.max(repeat - 500, minRepeat);
+    clearInterval(intervalId);
+    intervalId = setInterval(createBubble, repeat);
   }
 }
 
 function createBubble() {
-    if (bubbleMap.size < maxbubbles) {
-        const bubbleText = getRandomChar();
-        const radius = 25;
-        const x = Math.random() * (canvas.width - 2 * radius) + radius;
-        const y = canvas.height + radius;
+  if (bubbleMap.size < maxbubbles) {
+    const bubbleText = getRandomChar();
+    const radius = 25;
+    const x = Math.random() * (canvas.width - 2 * radius) + radius;
+    const y = canvas.height + radius;
 
-        bubbleMap.set(bubbleText, { x, y, radius });
+    bubbleMap.set(bubbleText, { x, y, radius });
 
-        adjustSpeed();
-    }
+    adjustSpeed();
+  }
 }
 
 function drawBubbles() {
@@ -64,11 +81,11 @@ function drawBubbles() {
     const { x, y, radius } = bubble;
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = getRandomColor()
-          
+    ctx.fillStyle = getRandomColor();
+
     ctx.fill();
-    ctx.fillStyle = "#fff"; 
-    ctx.font = "20px Arial"; 
+    ctx.fillStyle = "#fff";
+    ctx.font = "20px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(key, x, y);
@@ -81,10 +98,11 @@ function animate() {
 
   bubbleMap.forEach((bubble, key) => {
     if (bubble.y - bubble.radius > 0) {
-      bubble.y -= speed; 
+      bubble.y -= speed;
     } else {
       bubbleMap.delete(key);
       generatedChars.delete(key);
+      damage();
     }
   });
 
