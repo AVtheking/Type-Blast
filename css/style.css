@@ -3,7 +3,8 @@ body{
     background-color: blueviolet;
     margin: 0;
     padding: 0;
-    overflow: hidden; 
+    overflow: hidden;
+    box-sizing: border-box; 
     background-image: url("../images/bg.jpg");
 
 }ul{
@@ -76,7 +77,7 @@ body{
 }.gameOverScreen{
     display: none;
     text-align: center;
-    border-style: dotted;
+  
     margin: 10vh 30vw;
     padding: 5%;
     background-color: transparent;
@@ -93,6 +94,8 @@ body{
     margin-left: 9vw;
     object-fit: cover;
     background: transparent;
+    border:5px solid white;
+    border-radius: 15px;
      
 
     
