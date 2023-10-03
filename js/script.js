@@ -1,5 +1,8 @@
-document.getElementById("btn").addEventListener("click", remove, true);
-function remove() {
+document.getElementById("btn").addEventListener("click", navigate, true);
+let gameStartSound = new Audio("../sounds/mouse-click-153941.mp3");
+
+function navigate() {
+  gameStartSound.play();
   window.location.href = "./game_screen.html";
 }
 let str = "Welcome to Type-Blast";

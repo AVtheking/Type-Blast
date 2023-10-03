@@ -6,9 +6,9 @@ const ctx = canvas.getContext("2d");
 let myScore = document.getElementById("score");
 let endScore = document.getElementById("endScore");
 let score = 0;
-const maxbubbles = 10;
+const maxbubbles = 20;
 let speed = 0.5;
-let maxSpeed = 6;
+let maxSpeed = 5;
 const generatedChars = new Set();
 let minRepeat = 300;
 let repeat = 1500;
@@ -19,6 +19,7 @@ let health = 10;
 let sound = new Audio("../sounds/wronganswer-37702.mp3");
 let gameOverSound = new Audio("../sounds/negative_beeps-6008.mp3");
 let popSound = new Audio("../sounds/pop-39222.mp3");
+let gameStartSound = new Audio("../sounds/mouse-click-153941.mp3");
 
 myScore.innerHTML = `Score: ${score}`;
 myScore.style.fontSize = "25px";
@@ -81,8 +82,8 @@ function getRandomChar() {
 function adjustSpeed() {
   if (score % 5 == 0 && score != 0 && !scoreMap.has(score)) {
     scoreMap.set(score, 1);
-    speed = Math.min(speed + 0.02, maxSpeed);
-    repeat = Math.max(repeat - 200, minRepeat);
+    speed = Math.min(speed + 0.05, maxSpeed);
+    repeat = Math.max(repeat - 250, minRepeat);
     clearInterval(intervalId);
     intervalId = setInterval(createBubble, repeat);
   }
@@ -186,6 +187,7 @@ function gameOver() {
   endScore.style.color = "#fff";
   const restartButton = document.getElementById("restartButton");
   restartButton.addEventListener("click", () => {
+    gameStartSound.play();
     health = 10;
     score = 0;
     myScore.innerHTML = `Score: ${score}`;
