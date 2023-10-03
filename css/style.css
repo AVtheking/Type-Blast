@@ -64,7 +64,7 @@ body{
     width: 100vw;
     height: 5vh;
     background: transparent;
-    flex-wrap: wrap;
+   
     
 }.hearts{
     height: 30px;
@@ -117,11 +117,11 @@ body{
 }
 @keyframes move {
     0% {
-        left: 0; /* Start position (left edge) */
+        left: 0; 
     }
     100% {
-        left: 50%; /* End position (center) */
-        transform: translateX(-50%); /* Center the button horizontally */
+        left: 50%; 
+        transform: translateX(-50%); 
     }
 }
 

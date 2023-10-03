@@ -256,5 +256,3 @@ function gameOver() {
   });
 }
 animate();
-
-// export { animate };
